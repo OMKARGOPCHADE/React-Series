@@ -14,7 +14,7 @@ const reactElement = {
         href:'https://www.google.com',
         target:'_blank' 
     },
-    children:'Click me to visit google'
+    children:'Click me to visit google web app'
 };
 
 const mainContainer = document.querySelector('#root');

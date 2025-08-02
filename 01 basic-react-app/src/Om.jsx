@@ -1,6 +1,6 @@
 function Om(){
     return(
-        <h1>Hello New Jsx</h1>
+        <h1>Hey, Linkdin Familay!</h1>
     )
 }
 export default Om

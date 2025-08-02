@@ -1,7 +1,7 @@
 function App() {
   return (
     <>
-      <h1>Hello,World! Omkar</h1>
+      <h1>chai aur react | Omkar</h1>
     </>
   )
 }
