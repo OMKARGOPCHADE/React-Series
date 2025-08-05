@@ -13,6 +13,8 @@ function App() {
 
   const options = Object.keys(currencyInfo)
 
+  const [onSelectCurrency,onCurrencyChange] = useState("")
+
   const swap = () => {
     setFrom(to);
     setTo(from);
