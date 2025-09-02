@@ -4,39 +4,24 @@ import { motion } from "framer-motion";
 export default function ShowSchools() {
   const [schools, setSchools] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/getSchools")
-      .then((res) => res.json())
-      .then((data) => {
-        // ✅ Ensure data is an array, otherwise use fallback
+    async function loadSchools() {
+      try {
+        const res = await fetch("/api/getSchools");
+        if (!res.ok) {
+          throw new Error("Failed to fetch from API");
+        }
+
+        const data = await res.json();
+
         if (Array.isArray(data)) {
           setSchools(data);
         } else {
           setError("Database not available, showing demo data.");
           setSchools([
             {
-              id: 1,
-              name: "MVV Degloor",
-              address: "Udgir Road, Degloor",
-              city: "Degloor",
-              image: "my-schools-app/public/schoolImages/bunsep1nggckrytrz8kqy5qrg.jpeg",
-            },
-            {
-              id: 2,
-              name: "ACPCE",
-              address: "Kharghar",
-              city: "Navi Mumbai",
-              image: "clg1.jpg",
-            },
-          ]);
-        }
-      })
-      .catch(() => {
-        // ✅ Handle fetch error gracefully
-        setError("Unable to connect to server, showing demo data.");
-        setSchools([
-          {
               id: 1,
               name: "MVV Degloor",
               address: "Udgir Road, Degloor",
@@ -50,9 +35,41 @@ export default function ShowSchools() {
               city: "Navi Mumbai",
               image: "clg1.jpg",
             },
+          ]);
+        }
+      } catch (err) {
+        setError("Unable to connect to server, showing demo data.");
+        setSchools([
+          {
+            id: 1,
+            name: "MVV Degloor",
+            address: "Udgir Road, Degloor",
+            city: "Degloor",
+            image: "mvv.jpg",
+          },
+          {
+            id: 2,
+            name: "ACPCE",
+            address: "Kharghar",
+            city: "Navi Mumbai",
+            image: "clg1.jpg",
+          },
         ]);
-      });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadSchools();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-lg font-semibold">Loading schools...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-6">
@@ -86,7 +103,6 @@ export default function ShowSchools() {
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3 }}
               onError={(e) => {
-                // fallback if image missing
                 e.target.src = "/schoolImages/default.jpg";
               }}
             />
