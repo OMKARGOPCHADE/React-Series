@@ -20,7 +20,7 @@ export default function ShowSchools() {
               name: "MVV Degloor",
               address: "Udgir Road, Degloor",
               city: "Degloor",
-              image: "mvv.jpg",
+              image: "my-schools-app/public/schoolImages/bunsep1nggckrytrz8kqy5qrg.jpeg",
             },
             {
               id: 2,
