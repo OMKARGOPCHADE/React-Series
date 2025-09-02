@@ -18,7 +18,7 @@ export default function ShowSchools() {
             {
               id: 1,
               name: "MVV Degloor",
-              address: "Udgir Road, Degloor
+              address: "Udgir Road, Degloor",
               city: "Degloor",
               image: "mvv.jpg",
             },
@@ -39,7 +39,7 @@ export default function ShowSchools() {
           {
               id: 1,
               name: "MVV Degloor",
-              address: "Udgir Road, Degloor
+              address: "Udgir Road, Degloor",
               city: "Degloor",
               image: "mvv.jpg",
             },
