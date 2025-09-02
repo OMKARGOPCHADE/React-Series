@@ -3,11 +3,55 @@ import { motion } from "framer-motion";
 
 export default function ShowSchools() {
   const [schools, setSchools] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch("/api/getSchools")
       .then((res) => res.json())
-      .then((data) => setSchools(data));
+      .then((data) => {
+        // ✅ Ensure data is an array, otherwise use fallback
+        if (Array.isArray(data)) {
+          setSchools(data);
+        } else {
+          setError("Database not available, showing demo data.");
+          setSchools([
+            {
+              id: 1,
+              name: "MVV Degloor",
+              address: "Udgir Road, Degloor
+              city: "Degloor",
+              image: "mvv.jpg",
+            },
+            {
+              id: 2,
+              name: "ACPCE",
+              address: "Kharghar",
+              city: "Navi Mumbai",
+              image: "clg1.jpg",
+            },
+          ]);
+        }
+      })
+      .catch(() => {
+        // ✅ Handle fetch error gracefully
+        setError("Unable to connect to server, showing demo data.");
+        setSchools([
+          {
+              id: 1,
+              name: "MVV Degloor",
+              address: "Udgir Road, Degloor
+              city: "Degloor",
+              image: "mvv.jpg",
+            },
+            {
+              id: 2,
+              name: "ACPCE",
+              address: "Kharghar",
+              city: "Navi Mumbai",
+              image: "clg1.jpg",
+            },
+        ]);
+      });
   }, []);
 
   return (
@@ -20,6 +64,10 @@ export default function ShowSchools() {
       >
         🏫 Our Beautiful Schools
       </motion.h1>
+
+      {error && (
+        <p className="text-center text-red-600 mb-6 font-medium">{error}</p>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {schools.map((school, i) => (
@@ -37,6 +85,10 @@ export default function ShowSchools() {
               className="h-48 w-full object-cover"
               whileHover={{ scale: 1.1 }}
               transition={{ duration: 0.3 }}
+              onError={(e) => {
+                // fallback if image missing
+                e.target.src = "/schoolImages/default.jpg";
+              }}
             />
             <div className="p-5">
               <h2 className="text-xl font-bold text-gray-800">{school.name}</h2>
